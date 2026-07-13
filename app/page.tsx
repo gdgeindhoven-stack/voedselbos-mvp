@@ -10,9 +10,12 @@ import {
 import { ForestMap } from "@/components/forest-map";
 import { HourLog } from "@/components/hour-log";
 import { TaskBoard } from "@/components/task-board";
-import { forests, harvests, tasks } from "@/lib/demo-data";
+// import { forests, harvests, tasks } from "@/lib/demo-data";
+import { harvests, tasks } from "@/lib/demo-data";
+import { getForests } from "@/lib/forest-service";
 
-export default function Home() {
+export default async function Home() {
+  const forests = await getForests();
   return (
     <main>
       <header className="sticky top-0 z-20 border-b border-forest-900/10 bg-cream/90 backdrop-blur">
@@ -74,14 +77,16 @@ export default function Home() {
           </div>
 
           <div className="relative">
-            <Image
-              src={forests[0].image}
-              width={900}
-              height={700}
-              alt={forests[0].name}
-              className="h-[480px] w-full rounded-[3rem] object-cover shadow-soft"
-              priority
-            />
+            {forests.length > 0 && (
+              <Image
+                src={forests[0].image}
+                width={900}
+                height={700}
+                alt={forests[0].name}
+                className="h-[480px] w-full rounded-[3rem] object-cover shadow-soft"
+                priority
+              />
+            )}
 
             <div className="absolute -bottom-5 -left-3 rounded-2xl bg-white p-5 shadow-soft">
               <p className="text-3xl font-black">{forests.length}</p>
